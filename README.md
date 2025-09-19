@@ -18,13 +18,13 @@ This is my playground + notebook + lab report (RISC-V Reference SoC Tapeout diar
 
 ---
 
-# 📅 Week 0 – Tools Installation & Environment Setup 
-
+# 🗓️ Week 0 
 <details>
-<summary>Installation Flow</summary>
+<summary> Tools Installation & Environment Setup </summary>
+  <hr style="border-top: 1px dotted #bbb;" />
 🔹 Yosys – Logic Synthesis Tool
-
-Yosys is an open-source synthesis framework used to convert Verilog RTL into gate-level netlists. It’s the backbone of open-source digital design flows and works with standard cell libraries like Sky130.
+  
+An open-source synthesis framework used to convert Verilog RTL into gate-level netlists. It’s the backbone of open-source digital design flows and works with standard cell libraries like Sky130.
 
 ```bash
 sudo apt-get update
@@ -42,6 +42,8 @@ sudo make install
   <img src="./Week-0/assets/yosys.png" alt="System Information" width="600">
 </p>
 
+<hr style="border-top: 1px dotted #bbb;" />
+
 🔹 Icarus Verilog (iverilog) – RTL Simulation
 
 Icarus Verilog is a Verilog simulator that lets you compile and run HDL code, often paired with GTKWave for waveform viewing.
@@ -54,6 +56,8 @@ sudo apt-get install iverilog
   <img src="./Week-0/assets/iverilog.png" alt="System Information" width="600">
 </p>
 
+<hr style="border-top: 1px dotted #bbb;" />
+
 🔹 GTKWave – Waveform Viewer
 
 GTKWave is a signal waveform viewer used to visualize VCD/EVCD files generated during simulation.
@@ -65,6 +69,8 @@ sudo apt-get install gtkwave
 <p align="center">
   <img src="./Week-0/assets/gtkwave.png" alt="System Information" width="600">
 </p>
+<hr style="border-top: 1px dotted #bbb;" />
+
 🔹 Ngspice – Circuit Simulator
 
 Ngspice is an analog/mixed-signal circuit simulator, widely used for SPICE netlists, device models, and transistor-level verification.
@@ -83,6 +89,7 @@ sudo make install
 <p align="center">
   <img src="./Week-0/assets/ngspice.png" alt="System Information" width="600">
 </p>
+<hr style="border-top: 1px dotted #bbb;" />
 
 🔹 Magic VLSI – Layout Editor
 
@@ -100,6 +107,7 @@ sudo make install
 <p align="center">
   <img src="./Week-0/assets/magic.png" alt="System Information" width="600">
 </p>
+<hr style="border-top: 1px dotted #bbb;" />
 
 🔹 OpenLane – RTL to GDSII Flow
 
