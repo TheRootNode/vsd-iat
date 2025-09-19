@@ -142,7 +142,6 @@ make test
 A successful run of the `spm` design using **Sky130A PDK**.  
 Key outputs are stored under [`Week-0/assets/openlane-spm/`](Week-0/assets/openlane-spm/).
 
-- [Metrics Report](Week-0/assets/openlane-spm/metrics.csv)
 - [Final GDSII (Magic)](Week-0/assets/openlane-spm/gds/spm.gds)
 - [Final LEF](Week-0/assets/openlane-spm/lef/spm.lef)
 - [Final Verilog](Week-0/assets/openlane-spm/verilog/gl/spm.v)
