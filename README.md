@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-This is my playground + notebook + lab report (RISC-V Reference SoC Tapeout diary), all rolled into one.  
+It’s not just a repo of code and configs, but a playground for <b> experiments, notes, logs, and artifacts .</b> <br> <i>📖 Documenting the process in an open, transparent, and reproducible way.</i>
 </p>
 
 <p align="center">
