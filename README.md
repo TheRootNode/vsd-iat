@@ -557,7 +557,80 @@ where:
   </details>
 
   <details>
-    <summary><font color="#b69b72">8-SKY130RTL D1SK3 L3 introduction to logic synthesis part2</font></summary>
+    <summary><font color="#b69b72">Introduction to logic synthesis part2</font></summary>
+### 1️⃣ Why We Need Slow Cells?
+
+- In digital circuits, **hold-time violations** can occur if data reaches the next flip-flop too quickly.  
+- To prevent this, we sometimes need **slow cells** that add intentional delay.  
+- Rule:
+```
+    T_hold_B < T_cq_A + T_combi
+
+  where:
+ `T_hold_B` = Hold time of flip-flop B  
+ `T_cq_A`   = Clock-to-Q delay of flip-flop A  
+ `T_combi`  = Delay of combinational logic
+```
+
+✅ Therefore:  
+- **Fast cells** → meet performance requirements (setup time).  
+- **Slow cells** → prevent hold violations.  
+- Both together form part of the `.lib`.
+
+```
+ +---------+         +-------------+         +---------+
+ |  DFF A  | ------> |   COMBIN.   | ------> |  DFF B  |
+ +---------+         |   Logic     |         +---------+
+                     +-------------+
+       |                                     |
+       |<----------- Hold Check ------------>|
+
+```
+
+### 2️⃣ Faster Cells vs Slower Cells
+
+- Load in digital circuits = capacitance
+
+- Delay is proportional to charging/discharging capacitance.
+
+Key Trade-offs:
+
+- Wider transistors → charge faster → low delay but more area & power.
+
+- Narrow transistors → charge slower → higher delay but less area & power.
+
+- Faster cells = better timing closure, but expensive in PPA (Power, Performance, Area).
+
+| Cell Type  | Delay      | Area   | Power  | Usage                                 |
+| ---------- | ---------- | ------ | ------ | ------------------------------------- |
+| Fast Cells | Low delay  | Higher | Higher | Needed for performance (setup fixing) |
+| Slow Cells | High delay | Lower  | Lower  | Needed to fix hold issues             |
+
+### 3️⃣ Synthesis (Illustration)
+```verilog
+module example (A, B, sel, clk, reset, Q);
+    input A, B, sel, clk, reset;
+    output reg Q;
+    wire int;
+
+    assign int = sel ? A : B;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset)
+            Q <= 1'b0;
+        else
+            Q <= int;
+    end
+endmodule
+
+```
+```text
+   RTL Code (Verilog)                  Synthesized Netlist
+   -------------------                 -------------------
+   assign int = sel ? A : B;   ---->   MUX2_X1 (.A(A), .B(B), .S(sel), .Y(int))
+   always @(posedge clk)       ---->   DFF_X1 (.D(int), .Q(Q), .CLK(clk), .RST(reset))
+
+```
   </details>
 
 </details>
