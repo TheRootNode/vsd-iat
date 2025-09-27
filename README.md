@@ -471,7 +471,89 @@ gedit tb_good_mux.v
   </details>
 
   <details>
-    <summary><font color="#b69b72">7-SKY130RTL D1SK3 L2 introduction to logic synthesis part1</font></summary>
+    <summary><font color="#b69b72">Introduction to logic synthesis part1</font></summary>
+
+  ### 1️⃣ Synthesis
+
+- **Synthesis** = process of converting **RTL (Register Transfer Level)** code into a **gate-level netlist**.  
+- Input:
+  - **RTL** (written in Verilog/VHDL)
+  - **.lib file** (standard cell library, with logic gate definitions and timing)
+- Output:
+  - **Netlist** = a file describing the circuit as interconnected logic gates.
+```
+   +---------+            +-------------+            +-----------+
+   |   RTL   | ---------> |             | ---------> |  Netlist  |
+   | (Design)|            |  Synthesis  |            |  (Gates)  |
+   +---------+            |   Tool      |            +-----------+
+   +---------+            |  (Yosys)    |
+   |  .lib   | ---------> |             |
+   +---------+            +-------------+
+
+```
+
+👉 The netlist describes which gates are used (from the library) and how they are connected to realize the RTL functionality.
+
+### 2️⃣ What is `.lib` ?
+
+A **`.lib` (library) file** contains information about the **standard cells** available in a technology node.  
+- It is essentially a **collection of logic gates** (AND, OR, NOT, NAND, etc.).  
+- Provides:
+  - **Functional behavior** of each gate
+  - **Timing information** (delay, setup/hold, etc.)
+  - **Power consumption**
+  - **Different flavors** of the same gate (e.g., slow, medium, fast)  
+
+#### Example contents of `.lib`:
+- 2-input AND gate → slow / medium / fast  
+- 3-input AND gate → slow / medium / fast  
+- 4-input AND gate → multiple drive strengths
+
+```
+   +---------------------------------------------------+
+   |                      .lib                         |
+   |---------------------------------------------------|
+   |  AND2  (slow)    AND2  (medium)    AND2  (fast)   |
+   |  OR2   (slow)    OR2   (medium)    OR2   (fast)   |
+   |  NAND3 (slow)    NAND3 (medium)    NAND3 (fast)   |
+   |  NOR4  (slow)    NOR4  (medium)    NOR4  (fast)   |
+   |                                                   |
+   |   ... many more cells (XOR, INV, DFF, etc.) ...   |
+   +---------------------------------------------------+
+
+```
+👉 The synthesis tool uses this `.lib` to **map RTL operators** into real hardware gates.
+
+### 3️⃣ Why Different Flavors of Gates?
+
+Not all gates are created equal.  
+- In digital circuits, the **speed of operation** depends on **combinational delay**.  
+- A clock cycle must be large enough to cover:
+```
+Tclk ≥ Tcq_A + Tcombi + Tsetup_B
+
+where:
+- `Tcq_A` = clock-to-Q delay of flip-flop A  
+- `Tcombi` = delay of combinational logic  
+- `Tsetup_B` = setup time of flip-flop B  
+
+- The **maximum clock frequency** is:
+   fclk_max = 1 / Tmin_clk
+```
+```
+   +---------+         +-------------+         +---------+
+   |  DFF A  | ------> |   COMBIN.   | ------> |  DFF B  |
+   +---------+         |    Logic    |         +---------+
+                       +-------------+
+
+   <-------------------- One Clock Cycle -------------------->
+```
+#### Why flavors?  
+- Faster cells reduce `Tcombi`, allowing higher clock frequency.  
+- But **faster cells consume more power and area**.  
+- Hence `.lib` provides multiple options:
+  - **Slow cells** → lower power, but higher delay  
+  - **Fast cells** → higher speed, but more power 
   </details>
 
   <details>
