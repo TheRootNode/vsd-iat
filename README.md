@@ -639,7 +639,7 @@ endmodule
   <summary><font color="skyblue">Labs using Yosys and Sky130 PDKs</font></summary>
 
   <details>
-    <summary><font color="#b69b72">Yosys 1 good mux Part1</font></summary>
+    <summary><font color="#b69b72">Yosys 1 good mux</font></summary>
     
 ### good_mux — Gate-Level Synthesis (SKY130)
 
@@ -694,14 +694,6 @@ The gate-level schematic (generated via `show`) clearly shows the mapping of RTL
                               └─────────────────────────┘
 ```
     
-  </details>
-
-  <details>
-    <summary><font color="#b69b72">10-SKY130RTL D1SK4 L2 Lab3 Yosys 1 good mux Part2</font></summary>
-  </details>
-
-  <details>
-    <summary><font color="#b69b72">11-SKY130RTL D1SK4 L3 Lab3 Yosys 1 good mux Part3</font></summary>
   </details>
 </details>
 </details>
