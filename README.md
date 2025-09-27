@@ -218,32 +218,46 @@ Key outputs are stored under [`Tools_installation/assets/openlane-spm/`](Tools_i
   ---
  #### 🔹 General Simulation Flow
 
-  ```mermaid
-  flowchart LR
-      A[Design (RTL)] --> C[Simulator]
-      B[Testbench] --> C[Simulator]
-      C --> D[Outputs: logs / waveforms / coverage]
+  ```
++----------------+        +-----------+        +-----------------------------+
+|  Design (RTL)  | -----> | Simulator | -----> | Logs / Waveforms / Coverage |
++----------------+        +-----------+        +-----------------------------+
+           ^
+           |
++----------------+
+|   Testbench    |
++----------------+
   ```
   ---
 ####  🔹 Testbench Block Diagram
 
-  ```mermaid
-  flowchart LR
-      subgraph TB[Testbench]
-          A[Stimulus Generator] --> B[Design (DUT)]
-          B --> C[Stimulus Observer]
-      end
-
+  ```
+ +--------------------- Testbench ----------------------+
+|                                                      |
+|  +--------------------+       +-------------------+  |
+|  | Stimulus Generator | ----> |   Design (DUT)    |  |
+|  +--------------------+       +-------------------+  |
+|                                   |                  |
+|                                   v                  |
+|                        +-------------------------+   |
+|                        |     Stimulus Observer   |   |
+|                        +-------------------------+   |
+|                                                      |
++------------------------------------------------------+
   ```
   ---
 ####  🔹 Iverilog + GTKWave Simulation Flow
 
-  ```mermaid
-  flowchart TB
-      A[Design (RTL)] --> C[iverilog]
-      B[Testbench] --> C[iverilog]
-      C --> D[vcd file]
-      D --> E[GTKWave]
+  ```
++------------+       +----------+       +-----------+       +---------+
+|  RTL (v)   | ----> | iverilog | ----> |  vvp run  | --->  |  VCD    |
++------------+       +----------+       +-----------+       +---------+
+       ^                                                       |
+       |                                                       v
++------------+                                            +---------+
+| Testbench  |------------------------------------------> | GTKWave |
++------------+                                            +---------+
+
   ```
   ---
 ####  🔹 Example Workflow with Open-Source Tools
