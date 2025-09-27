@@ -639,7 +639,61 @@ endmodule
   <summary><font color="skyblue">Labs using Yosys and Sky130 PDKs</font></summary>
 
   <details>
-    <summary><font color="#b69b72">9-SKY130RTL D1SK4 L1 Lab3 Yosys 1 good mux Part1</font></summary>
+    <summary><font color="#b69b72">Yosys 1 good mux Part1</font></summary>
+    
+### good_mux — Gate-Level Synthesis (SKY130)
+
+This repository captures the **synthesis result** of a 2:1 multiplexer (`good_mux`) targeting the **SKY130 FD SC HD** standard-cell library. The RTL is mapped to a single technology cell and visualized as a gate-level schematic.
+
+---
+
+#### What was synthesized
+
+| Item            | Value / Notes                                                         |
+|-----------------|-----------------------------------------------------------------------|
+| Top module      | `good_mux`                                                            |
+| RTL behavior    | `y = sel ? i1 : i0` (purely combinational)                            |
+| Tech library    | `sky130_fd_sc_hd__tt_025C_1v80.lib`                                   |
+| Technology cell | **`sky130_fd_sc_hd__mux2_1`** (2:1 multiplexer)                       |
+| Inputs          | `i0`, `i1`, `sel`                                                     |
+| Output          | `y`                                                                   |
+| Combinational?  | Yes — **no latches inferred**                                         |
+| Final statistics| **1 cell**, **4 wires/bits**, **3 inputs**, **1 output**              |
+
+---
+
+#### Synthesis interpretation
+
+- Yosys translated the `if(sel) y = i1; else y = i0;` structure into an internal `$mux`, then mapped it to the **technology-specific** cell:
+  - Intermediate: `$_MUX_`  
+  - Final (ABC mapping): **`sky130_fd_sc_hd__mux2_1`**
+- The log confirms:
+  - *“No latch inferred”* → combinational logic is clean.
+  - *ABC RESULTS: mux cells: 1* → exactly one 2:1 mux implements the design.
+  - *Checks report 0 problems* → structurally valid netlist.
+
+---
+
+#### Gate-level view
+
+The gate-level schematic (generated via `show`) clearly shows the mapping of RTL ports to the mux cell pins:
+
+- **A0** ← `i0`  
+- **A1** ← `i1`  
+- **S**  ← `sel`  
+- **X**  → `y`
+
+```text
+          i0 ─────┐
+                   ├── A0
+          i1 ─────┤          sky130_fd_sc_hd__mux2_1      ┌── y
+                   ├── A1    ┌─────────────────────────┐──┤
+         sel ──────┘         │        ( 2:1 MUX )      │  └── X
+                              │  S ◄── sel    A0 ◄── i0 │
+                              │           A1 ◄── i1     │
+                              └─────────────────────────┘
+```
+    
   </details>
 
   <details>
