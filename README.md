@@ -414,7 +414,60 @@ gedit tb_good_mux.v
   <summary><font color="skyblue">Introduction to Yosys and Logic synthesis</font></summary>
 
   <details>
-    <summary><font color="#b69b72">6-SKY130RTL D1SK3 L1 Introduction to yosys</font></summary>
+    <summary><font color="#b69b72">Introduction to yosys</font></summary>
+ 
+  ### 1️⃣ Synthesizer
+
+  - Tool used for converting RTL to netlist  
+  - **Yosys** is the synthesizer used in this course
+
+```
++---------+            +-----------+            +-------------+
+| DESIGN  | ---------> |           | ---------> |  netlist.v  |
++---------+            |   Yosys   |            +-------------+
+|  .lib   | ---------> |           |
++---------+            +-----------+
+
+```
+ ### 2️⃣ Yosys Setup
+
+- **read_verilog** → load the RTL design  
+- **read_liberty** → load the standard cell library (.lib)  
+- **write_verilog** → export synthesized netlist
+
+```
+   [read_verilog]                               [write_verilog]
+        |                                             ^
+        v                                             |
++---------+            +-----------+            +-------------+
+| DESIGN  | ---------> |           | ---------> |  netlist.v  |
++---------+            |   Yosys   |            +-------------+
+|  .lib   | ---------> |           |
++---------+            +-----------+
+        ^
+        |
+  [read_liberty]
+
+```
+### 3️⃣ Verify the Synthesis
+
+- After synthesis, the generated **netlist** is simulated with the same **testbench**.  
+- **Icarus Verilog (iverilog)** compiles the design and produces a **VCD file**.  
+- **GTKWave** is used to visualize the waveforms.
+
+```
++-----------+            +-----------+            +-----------+
+|  NETLIST  | ---------> |           | ---------> |  vcd file |
++-----------+            | iverilog  |            +-----------+
+| Testbench | ---------> |           |
++-----------+            +-----------+
+                               |
+                               v
+                         +-----------+
+                         |  GTKWave  |
+                         +-----------+
+
+```
   </details>
 
   <details>
